@@ -34,56 +34,47 @@ class params {
   $config_db_username  = 'apimuser2'
   $config_db_password  = 'wso2root'
 
-##################LDAP Configuration###################
-
-  $connect_to_ldap  = false # use an external Ldap as the primary user store. The Default JDBC userstore wil not be disconnected in this case.
-  $ldap_url         = '192.168.18.76'
-  $ldap_port        = '389'
-# Ldap Connection name properties
-
-  $connection_name = 'cn=admin,dc=ITIndustry,dc=sl' # This goes into the user manager.xml
-  $rootpartition_string = 'dc=ITIndustry,dc=sl' # This goes into tenent-management.xml
-
-################# Dep Sync Configs ###############
-
-  $dep_sync_enabled = true
-  $svn_url = 'http://svnqa.wso2.com/repos/qa/apim180qa'
-  $svn_user_name  = 'svnuser'
-  $svn_password   = 'svn#pass123'
-
 #####################################
 ###### ESB Related Configs ##########
 
-  $esb_clustering = true
-
-# Manager Nodes Parameters only configure following if clustering true for the KM
+ # Manager Nodes Parameters only configure following if clustering true for the KM
   $esb_manager_offsets             = ['1']
   $esb_manager_hosts               = ['apim.180.puppet.km.com']
-  $esb_manager_ips                 = ['10.0.3.99']
+  $esb_manager_ips                 = ['54.165.27.226']
   $esb_manager_local_member_ports  = ['4001']
 
 # Worker Nodes parameters
-  $esb_worker_offsets            = ['6']
-  $esb_worker_hosts              = ['apim.180.puppet.km.com'] # Number of Nodes are determined from the array length so make it null if worker nodes are not required
+  $esb_worker_offsets            = ['2']
+  $esb_worker_hosts              = ['wrk.esb.tsys.com'] # Number of Nodes are determined from the array length so make it null if worker nodes are not required
   $esb_worker_ips                = ['10.0.3.99']
   $esb_worker_local_member_ports = ['4007']
 
 #######cluster details#########
-  $esb_custer_domain_name = "apim.puppet.km.180"
+  $esb_custer_domain_name     = "apim.puppet.km.180"
 
-####### ELB Related Configs ########### api-manager.xml
+####### ELB Configs #########
+  $elb_host_ip  =               "192.15.12.15"
+  $esb_cluster_group_mgt_port = "4600"
 
-  $elb_host_ip = "10.0.3.99"
-  $elb_km_group_mgt_port = "4050"
+######## ha Proxy ########
+  $haproxy_http_port     = '90'
+  $haproxy_https_port    = '9090'
 
-  $cluster_port_https = "9443" # elb listner Ports
-  $cluster_port_http = "9763"
+  $cert_location = '/home/ubuntu/haproxykeys/server.pem'
 
-############################################
+##########Apache http server ########
+  $apache_http_port = '80'
+  $apache_https_port = '443'
+  $apache_cert_path = '/home/ubuntu/apacheproxy_keys/server.crt'
+  $apache_cert_key_path = '/home/ubuntu/apacheproxy_keys/server.key'
 
-  $admin_role_name ="Administrator"
-  $admin_user_name = "Administrator"
-  $admin_passwd = "admin123#"
+
+#### http proxy ###### - for worker manager
+
+
+
+
+
 
 
 #########Do Not Change#######
@@ -100,6 +91,42 @@ class deploy inherits params {
 
   include esb_deploy
   #include create_loadblnc_conf_configs
+  include apache_server_configs
+  include haproxy_configs
+
+}
+
+class haproxy_configs inherits params{
+
+  file {"${params::deployment_target}/haproxy-configs":
+    ensure => directory;
+  }
+
+  file {"${params::deployment_target}/haproxy-configs/haproxy-configs.cfg":
+
+    ensure => present,
+    mode    => '0755',
+    content => template("${params::script_base_dir}/templates/haproxy/haproxy-configs.cfg.erb"),
+    require => File["${params::deployment_target}/haproxy-configs"],
+  }
+
+
+}
+
+class apache_server_configs inherits params{
+
+  file {"${params::deployment_target}/apache-server-configs":
+    ensure => directory;
+  }
+
+  file {"${params::deployment_target}/apache-server-configs/apache-server-configs.conf":
+
+    ensure => present,
+    mode    => '0755',
+    content => template("${params::script_base_dir}/templates/apache-server/apache-server-configs.conf.erb"),
+    require => File["${params::deployment_target}/apache-server-configs"],
+  }
+
 
 }
 
