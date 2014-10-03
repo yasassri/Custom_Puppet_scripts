@@ -12,16 +12,13 @@ class params {
   $mysql_server         = 'localhost'
   $mysql_port           = '3306'
 
-# Oracle DB detailes
-  $oracle_server         = '192.168.10'
-  $oracle_port           = '3306'
 
 # General Database details
 
 #Registry WSO2REGISTRY_DB
-  $registry_db_name   	= 'apiregdbpuppet' # For oracle this would be the main DB name
-  $registry_db_username = 'apimuser2'       # For oracle this is the user schema
-  $registry_db_password = 'wso2root'        # For oracle this schema password
+  $registry_db_name   	= 'apiregdbpuppet'
+  $registry_db_username = 'apimuser2'
+  $registry_db_password = 'wso2root'
 
 # user db WSO2UM_DB
   $users_mgt_db_name    = 'apiuserdbpuppet'
@@ -44,10 +41,10 @@ class params {
   $esb_manager_local_member_ports  = ['4001']
 
 # Worker Nodes parameters
-  $esb_worker_offsets            = ['2']
-  $esb_worker_hosts              = ['wrk.esb.tsys.com'] # Number of Nodes are determined from the array length so make it null if worker nodes are not required
-  $esb_worker_ips                = ['10.0.3.99']
-  $esb_worker_local_member_ports = ['4007']
+  $esb_worker_offsets            = ['2','3']
+  $esb_worker_hosts              = ['wrk.esb.tsys.com','wrk.esb.tsys.com'] # Number of Nodes are determined from the array length so make it null if worker nodes are not required
+  $esb_worker_ips                = ['10.0.3.99','10.0.3.99']
+  $esb_worker_local_member_ports = ['4007','4006']
 
 #######cluster details#########
   $esb_custer_domain_name     = "apim.puppet.km.180"
@@ -70,11 +67,6 @@ class params {
 
 
 #### http proxy ###### - for worker manager
-
-
-
-
-
 
 
 #########Do Not Change#######

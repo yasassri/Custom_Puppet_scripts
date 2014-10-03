@@ -27,17 +27,17 @@
     <!--
        Product Name
     -->
-    <Name>Application Server</Name>
+    <Name>WSO2 Enterprise Service Bus</Name>
 
     <!--
        machine readable unique key to identify each product
     -->
-    <ServerKey>AS</ServerKey>
+    <ServerKey>ESB</ServerKey>
 
     <!--
        Product Version
     -->
-    <Version>5.2.1</Version>
+    <Version>4.8.0</Version>
 
     <!--
        Host name or IP address of the machine hosting this server
@@ -50,7 +50,7 @@
     <!--
     Host name to be used for the Carbon management console
     -->
-    <!--MgtHostName>mgt.wso2.org</MgtHostName-->
+    <!--MgtHostName>mgt.esb.tsys.com</MgtHostName-->
 
     <!--
         The URL of the back end server. This is where the admin services are hosted and
@@ -74,7 +74,7 @@
     Ex : <Role>.*</Role> means this server can act any role
     -->
     <ServerRoles>
-        <Role>ApplicationServer</Role>
+        <Role>EnterpriseServiceBus</Role>
     </ServerRoles>
 
     <!-- uncommnet this line to subscribe to a bam instance automatically -->
@@ -494,15 +494,16 @@
     <!-- Deployment Synchronizer Configuration. t Enabled value to true when running with "svn based" dep sync.
 	In master nodes you need to set both AutoCommit and AutoCheckout to true
 	and in  worker nodes set only AutoCheckout to true.
-    -->
+ 
+   -->
     <DeploymentSynchronizer>
-        <Enabled>false</Enabled>
-        <AutoCommit>false</AutoCommit>
+        <Enabled>true</Enabled>
+        <AutoCommit>true</AutoCommit>
         <AutoCheckout>true</AutoCheckout>
         <RepositoryType>svn</RepositoryType>
-        <SvnUrl>http://svnrepo.example.com/repos/</SvnUrl>
-        <SvnUser>username</SvnUser>
-        <SvnPassword>password</SvnPassword>
+        <SvnUrl>http://172.31.35.139/repos/tsys/ESB</SvnUrl>
+        <SvnUser>wso2</SvnUser>
+        <SvnPassword>wso2123</SvnPassword>
         <SvnUrlAppendTenantId>true</SvnUrlAppendTenantId>
     </DeploymentSynchronizer>
 

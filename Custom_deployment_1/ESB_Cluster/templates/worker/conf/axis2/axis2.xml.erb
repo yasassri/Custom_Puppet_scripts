@@ -556,12 +556,10 @@
            "membershipScheme" above is set to "wka"
         -->
         <members>
-             <% @esb_manager_ips.each_with_index do |mgthost, index| %>
-           <member>
-                <hostName><%= mgthost %></hostName>
-                <port><%= @esb_manager_local_member_ports[index]%></port>
+            <member>
+                <hostName><%= @elb_host_ip %></hostName>
+                <port><%= @esb_cluster_group_mgt_port %></port>
             </member>
-	<% end %>
         </members>
 
         <!--
