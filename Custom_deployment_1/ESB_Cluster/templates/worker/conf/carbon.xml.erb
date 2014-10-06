@@ -496,16 +496,18 @@
 	and in  worker nodes set only AutoCheckout to true.
  
    -->
+   <% if !scope.lookupvar('params::dep_sync_enabled') %><!--<%end%>
     <DeploymentSynchronizer>
         <Enabled>true</Enabled>
-        <AutoCommit>true</AutoCommit>
+        <AutoCommit><% if @nodes=="manager" %>true<%else%>false<%end%></AutoCommit>
         <AutoCheckout>true</AutoCheckout>
         <RepositoryType>svn</RepositoryType>
-        <SvnUrl>http://172.31.35.139/repos/tsys/ESB</SvnUrl>
-        <SvnUser>wso2</SvnUser>
-        <SvnPassword>wso2123</SvnPassword>
+        <SvnUrl><%= @svn_url %></SvnUrl>
+        <SvnUser><%= @svn_username %></SvnUser>
+        <SvnPassword><%= @svn_passwd %></SvnPassword>
         <SvnUrlAppendTenantId>true</SvnUrlAppendTenantId>
     </DeploymentSynchronizer>
+     <% if !scope.lookupvar('params::dep_sync_enabled') %>--><%end%>
 
     <!-- Deployment Synchronizer Configuration. Uncomment the following section when running with "registry based" dep sync.
         In master nodes you need to set both AutoCommit and AutoCheckout to true
