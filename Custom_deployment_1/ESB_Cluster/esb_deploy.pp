@@ -25,12 +25,6 @@ class params {
   $usermgt_db_username  = 'apimuser2'
   $usermgt_db_password  = 'wso2root'
 
-# Config Registry - WSO2CONFIGREG_DB
-
-  $config_registry_db_name = 'apim_configdb_puppet'
-  $config_db_username  = 'apimuser2'
-  $config_db_password  = 'wso2root'
-
 #####################################
 ###### ESB Related Configs ##########
 
