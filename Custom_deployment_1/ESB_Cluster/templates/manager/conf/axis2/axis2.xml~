@@ -255,8 +255,8 @@
      <transportReceiver name="http" class="org.apache.synapse.transport.passthru.PassThroughHttpListener">
         <parameter name="port" locked="false">8280</parameter>
         <parameter name="non-blocking" locked="false">true</parameter>
-        <parameter name="bind-address" locked="false"><%= @esb_worker_hosts[0]%></parameter>
-        <parameter name="WSDLEPRPrefix" locked="false">http://<%= @esb_worker_hosts[0]%>:80</parameter>
+        <parameter name="bind-address" locked="false">wrk.esb.tsys.com</parameter>
+        <parameter name="WSDLEPRPrefix" locked="false">http://wrk.esb.tsys.com:80</parameter>
         <parameter name="httpGetProcessor" locked="false">org.wso2.carbon.transport.nhttp.api.PassThroughNHttpGetProcessor</parameter>
         <!--<parameter name="priorityConfigFile" locked="false">location of priority configuration file</parameter>-->
     </transportReceiver>
@@ -264,8 +264,8 @@
      <transportReceiver name="https" class="org.apache.synapse.transport.passthru.PassThroughHttpSSLListener">
         <parameter name="port" locked="false">8243</parameter>
         <parameter name="non-blocking" locked="false">true</parameter>
-        <parameter name="bind-address" locked="false"><%= @esb_worker_hosts[0]%></parameter>
-        <parameter name="WSDLEPRPrefix" locked="false">https://<%= @esb_worker_hosts[0]%>:443</parameter>
+        <parameter name="bind-address" locked="false">wrk.esb.tsys.com</parameter>
+        <parameter name="WSDLEPRPrefix" locked="false">https://wrk.esb.tsys.com:443</parameter>
  	 <parameter name="httpGetProcessor" locked="false">org.wso2.carbon.transport.nhttp.api.PassThroughNHttpGetProcessor</parameter>
         <parameter name="keystore" locked="false">
             <KeyStore>
@@ -556,10 +556,12 @@
            "membershipScheme" above is set to "wka"
         -->
         <members>
-            <member>
-                <hostName><%= @elb_host_ip %></hostName>
-                <port><%= @esb_cluster_group_mgt_port %></port>
+             <% @esb_manager_ips.each_with_index do |mgthost, index| %>
+           <member>
+                <hostName><%= mgthost %></hostName>
+                <port><%= @esb_manager_local_member_ports[index]%></port>
             </member>
+	<% end %>
         </members>
 
         <!--

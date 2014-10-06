@@ -31,28 +31,29 @@
         <dataSource>jdbc/WSO2CarbonDB</dataSource>
     </dbConfig>
 
-    <dbConfig name="wso2Mount">
-        <dataSource>jdbc/WSO2RegDB</dataSource>
-    </dbConfig>
+	<dbConfig name="sharedregistry">
+    <dataSource>jdbc/WSO2RegistryDB</dataSource>
+</dbConfig>
+ 
+<remoteInstance url="https://localhost:9443/registry">
+    <id>instanceid</id>
+    <dbConfig>sharedregistry</dbConfig>
+    <readOnly>true</readOnly>
+    <enableCache>true</enableCache>
+    <registryRoot>/</registryRoot>
+    <cacheId><%= @registry_user %>@jdbc:mysql://<%= @mysql_server %>:<%= @mysql_port %>/<%= @registrydb_name %>?autoReconnect=true</cacheId>
+</remoteInstance>
+ 
+<mount path="/_system/config" overwrite="true">
+    <instanceId>instanceid</instanceId>
+    <targetPath>/_system/asNodes</targetPath>
+</mount>
+ 
+<mount path="/_system/governance" overwrite="true">
+    <instanceId>instanceid</instanceId>
+    <targetPath>/_system/governance</targetPath>
+</mount>
 
-    <remoteInstance url="https://localhost:9443/registry">
-        <id>instanceid</id>
-        <dbConfig>wso2Mount</dbConfig>
-        <readOnly>false</readOnly>
-        <enableCache>true</enableCache>
-        <registryRoot>/</registryRoot>
-        <cacheId>root@jdbc:mysql://172.31.46.232:3306/regdb</cacheId>
-    </remoteInstance>
-
-    <mount path="/_system/config" overwrite="true">
-        <instanceId>instanceid</instanceId>
-        <targetPath>/_system/esb</targetPath>
-    </mount>
-
-    <mount path="/_system/governance" overwrite="true">
-        <instanceId>instanceid</instanceId>
-        <targetPath>/_system/governance</targetPath>
-    </mount>
 
    <!--<handler class="org.wso2.carbon.registry.extensions.handlers.SynapseRepositoryHandler">
         <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">

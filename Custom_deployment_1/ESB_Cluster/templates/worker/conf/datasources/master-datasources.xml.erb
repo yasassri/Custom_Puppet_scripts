@@ -26,6 +26,27 @@
                 </configuration>
             </definition>
         </datasource>
+        
+        <datasource>
+		<name>WSO2_REG_DB</name>
+		<description>The datasource used for registry and user manager</description>
+		<jndiConfig>
+		<name>jdbc/WSO2RegDB</name>
+		</jndiConfig>
+		<definition type="RDBMS">
+		<configuration>
+		<url>jdbc:mysql://<%= @mysql_server %>:<%= @mysql_port%>/<%= @registry_db_name %></url>
+		<username><%= @registry_db_username %></username> 
+		<password><%= @registry_db_password %></password>
+		<driverClassName>com.mysql.jdbc.Driver</driverClassName>
+		<maxActive>50</maxActive>
+		<maxWait>60000</maxWait>
+		<testOnBorrow>true</testOnBorrow>
+		<validationQuery>SELECT 1</validationQuery>
+		<validationInterval>30000</validationInterval>
+		</configuration>
+		</definition>
+</datasource>
 
 		<datasource>
 		<name>WSO2_USER_DB</name>
