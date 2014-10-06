@@ -4,7 +4,7 @@ class params {
 # General Settings
 
 # File Locations
-  $deployment_target  = '/home/yasassri/Desktop/QA_Resources/puppet/DEPLOY'
+  $deployment_target  = '/home/yasassri/Desktop/QA_Resources/puppet/DEPLOY/tsys'
   $pack_location      = '/home/yasassri/ProgramsQA/JIRAs/Tsystems/pack'
   $script_base_dir  = inline_template("<%= Dir.pwd %>") #location will be automatically picked up
 
@@ -16,35 +16,35 @@ class params {
 # General Database details
 
 #Registry WSO2REGISTRY_DB
-  $registry_db_name   	= 'apiregdbpuppet'
-  $registry_db_username = 'apimuser2'
-  $registry_db_password = 'wso2root'
+  $registry_db_name   	= 'regdb'
+  $registry_db_username = 'reguser'
+  $registry_db_password = 'regpw'
 
 # user db WSO2UM_DB
-  $users_mgt_db_name    = 'apiuserdbpuppet'
-  $usermgt_db_username  = 'apimuser2'
-  $usermgt_db_password  = 'wso2root'
+  $users_mgt_db_name    = 'umdb'
+  $usermgt_db_username  = 'umser'
+  $usermgt_db_password  = 'umpw'
 
 #####################################
 ###### ESB Related Configs ##########
 
  # Manager Nodes Parameters only configure following if clustering true for the KM
   $esb_manager_offsets             = ['1']
-  $esb_manager_hosts               = ['apim.180.puppet.km.com']
-  $esb_manager_ips                 = ['54.165.27.226']
+  $esb_manager_hosts               = ['mgr.esb.tsys.com']
+  $esb_manager_ips                 = ['10.100.5.40']
   $esb_manager_local_member_ports  = ['4001']
 
 # Worker Nodes parameters
   $esb_worker_offsets            = ['2','3']
   $esb_worker_hosts              = ['wrk.esb.tsys.com','wrk.esb.tsys.com'] # Number of Nodes are determined from the array length so make it null if worker nodes are not required
-  $esb_worker_ips                = ['10.0.3.99','10.0.3.99']
+  $esb_worker_ips                = ['10.100.5.40','10.100.5.40']
   $esb_worker_local_member_ports = ['4007','4006']
 
 #######cluster details#########
-  $esb_clustering_domain     = "apim.puppet.km.180"
+  $esb_clustering_domain     = "apim.puppet.esb.480"
 
 ####### ELB Configs #########
-  $elb_host_ip  =               "192.15.12.15"
+  $elb_host_ip  =               "10.100.5.40"
   $esb_cluster_group_mgt_port = "4600"
 
 ######## ha Proxy ########
@@ -76,7 +76,7 @@ class params {
 class deploy inherits params {
 
   include esb_deploy
-  #include create_loadblnc_conf_configs
+  include create_loadblnc_conf_configs
   include apache_server_configs
   include haproxy_configs
 
