@@ -47,7 +47,7 @@ class params {
   $esb_worker_local_member_ports = ['4007','4006']
 
 #######cluster details#########
-  $esb_custer_domain_name     = "apim.puppet.km.180"
+  $esb_clustering_domain     = "apim.puppet.km.180"
 
 ####### ELB Configs #########
   $elb_host_ip  =               "192.15.12.15"
